@@ -7,7 +7,6 @@ export const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // Fetch API data
 useEffect(() => {
     axios
       .get("https://jsonplaceholder.typicode.com/users")
@@ -17,19 +16,17 @@ useEffect(() => {
       
   }, []);
 
-  // Filter by name
   const filteredUsers = users.filter((u) =>
     u.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Sort by field
   const sortedUsers = [...filteredUsers].sort((a, b) => {
     if (sortField === "name") return a.name.localeCompare(b.name);
     if (sortField === "email") return a.email.localeCompare(b.email);
     return 0;
   });
 
-  // Pagination
+
   const totalPages = Math.ceil(sortedUsers.length / itemsPerPage);
   const paginatedUsers = sortedUsers.slice(
     (currentPage - 1) * itemsPerPage,
@@ -39,8 +36,6 @@ useEffect(() => {
     <main>
      <div className="bg-[#00707c0d] p-6">
       <h1 className="text-2xl font-bold mb-6 text-center text-[#00707c]">User Directory-React Task</h1>
-
-      {/* Search + Sort Controls */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
         <input
           type="text"
@@ -53,7 +48,7 @@ useEffect(() => {
           }}
         />
         <select
-          className="border p-2 rounded-md shadow-sm"
+          className="border p-2 rounded-md shadow-sm w-[30%]"
           value={sortField}
           onChange={(e) => setSortField(e.target.value)}
         >
@@ -62,7 +57,6 @@ useEffect(() => {
         </select>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto bg-white rounded-xl shadow">
         <table className="table-auto w-full border border-gray-200 rounded-xl">
           <thead>
@@ -95,11 +89,11 @@ useEffect(() => {
       </div>
 
       {/* Pagination */}
-      <div className="flex justify-center items-center gap-2 mt-6">
+      <div className="flex justify-start items-center gap-2 mt-6">
         <button
           className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
           disabled={currentPage === 1}
-          onClick={() => setCurrentPage((p) => p - 1)}
+          onClick={() => setCurrentPage((page) => page - 1)}
         >
          &lt;&lt;
         </button>
@@ -109,7 +103,7 @@ useEffect(() => {
         <button
           className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
           disabled={currentPage === totalPages || totalPages === 0}
-          onClick={() => setCurrentPage((p) => p + 1)}
+          onClick={() => setCurrentPage((page) => page + 1)}
         >
           &gt;&gt;
         </button>
